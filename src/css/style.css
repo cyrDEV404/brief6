@@ -1,0 +1,7 @@
+tr, th, td{
+    border:solid 1px;
+}
+
+.table_favori{
+    width: 100%;
+}
