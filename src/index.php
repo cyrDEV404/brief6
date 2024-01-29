@@ -17,44 +17,63 @@
 
         
       // Affichage (SELECT) :
-      if(!empty($_GET['search'])){
+    if(!empty($_GET['search'])){
         $result = $pdo->query("SELECT domaine.nom_domaine, favori.libelle, favori.url, favori.date_creation, favori.id_favori FROM favori INNER JOIN domaine ON favori.id_dom = domaine.id_domaine WHERE libelle LIKE '%".$_GET['search']."%' OR nom_domaine LIKE '%".$_GET['search']."%' OR url LIKE '%".$_GET['search']."%'");
-      } else{
-          if(isset($_GET['categorie'],$_GET['categorie']) && $_GET['categorie'] !== "none" && $_GET['domaine'] !== "none"){
-              $result = $pdo->query("SELECT * FROM favori INNER JOIN favori_categorie ON favori.id_favori = favori_categorie.id_favori INNER JOIN domaine ON favori.id_dom=domaine.id_domaine INNER JOIN categorie ON favori_categorie.id_categorie=categorie.id_categorie WHERE categorie.id_categorie=".$_GET['categorie']." AND domaine.id_domaine=".$_GET['domaine'].";");
-           }else{
-              if(isset($_GET['domaine']) && $_GET['domaine'] !== "none" && $_GET['categorie'] == "none"){
-                  $result = $pdo->query("SELECT * FROM favori INNER JOIN domaine ON favori.id_dom=domaine.id_domaine WHERE domaine.id_domaine=".$_GET['domaine']." ORDER BY id_favori ASC;");
-          }else{
-              if(isset($_GET['categorie']) && $_GET['categorie'] !== "none" && $_GET['domaine'] == "none"){
-                  $result = $pdo->query("SELECT * FROM favori INNER JOIN favori_categorie ON favori.id_favori=favori_categorie.id_favori INNER JOIN domaine ON favori.id_dom=domaine.id_domaine INNER JOIN categorie ON favori_categorie.id_categorie=categorie.id_categorie WHERE categorie.id_categorie=".$_GET['categorie'].";");  
-          }else{
-            $requestsql= "SELECT * FROM favori INNER JOIN domaine ON favori.id_dom = domaine.id_domaine ORDER BY id_favori ASC";
-            $result = $pdo->query($requestsql);
+        $favoris = $result->fetchAll(PDO::FETCH_ASSOC);
+    }else{
+        
+        if(isset($_GET['categorie']) && $_GET['categorie'] !== "none" && $_GET['domaine'] !== "none"){
+            echo "hello";
+            $result = $pdo->query("SELECT * FROM favori INNER JOIN favori_categorie ON favori.id_favori = favori_categorie.id_favori INNER JOIN domaine ON favori.id_dom=domaine.id_domaine INNER JOIN categorie ON favori_categorie.id_categorie=categorie.id_categorie WHERE categorie.id_categorie=".$_GET['categorie']." AND domaine.id_domaine=".$_GET['domaine'].";");
+            $favoris = $result->fetchAll(PDO::FETCH_ASSOC);  
+        }else{
+            if(isset($_GET['domaine']) && $_GET['domaine'] !== "none" && $_GET['categorie'] == "none"){
+                $result = $pdo->query("SELECT * FROM favori INNER JOIN domaine ON favori.id_dom=domaine.id_domaine WHERE domaine.id_domaine=".$_GET['domaine']." ORDER BY id_favori ASC;");
+                $favoris = $result->fetchAll(PDO::FETCH_ASSOC);
+            }else{
+                if(isset($_GET['categorie']) && $_GET['categorie'] !== "none" && $_GET['domaine'] == "none"){
+                    $result = $pdo->query("SELECT * FROM favori INNER JOIN favori_categorie ON favori.id_favori=favori_categorie.id_favori INNER JOIN domaine ON favori.id_dom=domaine.id_domaine INNER JOIN categorie ON favori_categorie.id_categorie=categorie.id_categorie WHERE categorie.id_categorie=".$_GET['categorie'].";");  
+                    $favoris = $result->fetchAll(PDO::FETCH_ASSOC);
+                }else{
+                    $requestsql= "SELECT * FROM favori INNER JOIN domaine ON favori.id_dom = domaine.id_domaine ORDER BY id_favori ASC";
+                    $result = $pdo->query($requestsql);
+                    $favoris = $result->fetchAll(PDO::FETCH_ASSOC);
+                }
+            }     
         }
-          
-        }
-        $requestsql= "SELECT * FROM favori INNER JOIN domaine ON favori.id_dom = domaine.id_domaine ORDER BY id_favori ASC";
-            $result = $pdo->query($requestsql);
-        }}
-        $requestsql= "SELECT * FROM favori INNER JOIN domaine ON favori.id_dom = domaine.id_domaine ORDER BY id_favori ASC";
-            $result = $pdo->query($requestsql);
+    }
+        
 
 
         
     
-       
 
 ?>
 
 
 
 
-    <section id="relative overflow-x-auto">
-        
+    <section class="overflow-x-auto">
 
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+
+    <!-- Modal content -->
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <p>Voulez vous supprimer ?</p>
+        <form action="delete.php" method="get">
+             <button id="bouton_envoyer" type="submit" name="id_favori" value="" class="text-gray-900 bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Oui</button>
+        </form>
+            <button id="btnClose" onclick="fermeture()"  type="button" class="text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Non</button>
+
+    </div>
+</div>
+
+
+</div>
     <form  action="" method="GET" class="max-w-sm text-center mx-auto px-auto">
-            <label  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select categorie</label>
+            <span  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select categorie</span>
                 <select id="categorie" name="categorie" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                 <option value="none">categorie</option>
 
@@ -72,7 +91,7 @@
                 
     
 
-            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select domaine</label>
+            <span class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select domaine</span>
                 <select id="domaine" name="domaine" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                 <option value="none">Domaine</option>
                 <?php 
@@ -89,9 +108,9 @@
 
                 <button type="submit" class="text-white   bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Search</button>
 
-            <label class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
+            <span class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</span>
             <div class="relative">                
-                <input type="search" name="search" class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Recherche par mots clé">
+                <input type="search" name="search" class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Recherche par libellé">
                 <button type="submit" class="text-white  bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Search</button>
             </div>
     </form>
@@ -121,7 +140,8 @@
             </tr>
             
             <?php 
-                foreach($result as $favori){
+            $index = 1;
+                foreach($favoris as $favori){
                     
             ?>
 
@@ -140,14 +160,22 @@
                     <?=$favori['url']; ?>
                 </td>
         
-                <td scope="row" class="px-6 py-4 hover:bg-gray-50 dark:hover:bg-gray-600">
-                     <i class="fa-solid fa-rotate">edit</i>
+                <td scope="row" class="px-6 py-4 hover:bg-gray-50 dark:hover:bg-gray-600">                                    
+                    <button name="actiondelete" value="actiondelete" data-modal-target="popup-modal" data-modal-toggle="popup-modal" onClick="ConfirmDelete();" class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="submit">
+                        <i  class="fa-solid fa-trash-can">Edit</i>
+                    </button>
                 </td>
-                <td scope="row" class="px-6 py-4 hover:bg-gray-50 dark:hover:bg-gray-600">
-                     <i class="fa-solid fa-trash-can">delete</i>
+
+
+                
+                <td scope="row" class="px-6 py-4 hover:bg-gray-50 dark:hover:bg-gray-600">                                    
+                    <button onclick="afficher_modal(<?php echo $favori['id_favori']?>)" id="myBtn<?php echo $favori['id_favori']?>" name="actiondelete" value="<?php echo $favori['id_favori']?>" data-modal-target="popup-modal" data-modal-toggle="popup-modal" class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="submit">
+                        <i  class="fa-solid fa-trash-can">Delete</i>
+                    </button>
                 </td>
             </tr>
         <?php
+        $index = $index++;
         }
         ?>
         </table>
