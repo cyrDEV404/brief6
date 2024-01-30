@@ -42,19 +42,19 @@
             }     
         }
     }
-        
-
-
-        
-    
-
 ?>
+    <section class="overflow-x-auto ">
 
-
-
-
-    <section class="overflow-x-auto">
-
+    <div class="rounded-md mt-5 ml-20">
+        <a href="insert.php" aria-current="page" class="px-4 py-2 text-3xl font-extrabold leading-none tracking-tight text-gray-900 text-blue-700 bg-white border border-gray-200 rounded-s-lg hover:bg-gray-100 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white">
+            Ajouter un favoris
+        </a>
+  
+        <a href="index.php" class="px-4 py-2 text-3xl font-extrabold leading-none tracking-tight text-gray-900 text-gray-900 bg-white border border-gray-200 rounded-e-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white">
+            Refresh
+        </a>
+    </div>
+    
     <!-- The Modal -->
     <div id="myModal" class="modal">
 
@@ -73,7 +73,7 @@
 
 </div>
     <form  action="" method="GET" class="max-w-sm text-center mx-auto px-auto">
-            <span  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select categorie</span>
+            <span  class="block mb-2 text-3xl font-extrabold leading-none tracking-tight text-gray-900 text-gray-900 dark:text-white">Select categorie</span>
                 <select id="categorie" name="categorie" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                 <option value="none">categorie</option>
 
@@ -91,7 +91,7 @@
                 
     
 
-            <span class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select domaine</span>
+            <span class="block mb-2 text-3xl font-extrabold leading-none tracking-tight text-gray-900 text-gray-900 dark:text-white">Select domaine</span>
                 <select id="domaine" name="domaine" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                 <option value="none">Domaine</option>
                 <?php 
@@ -106,12 +106,12 @@
             <?php } ?>
                 </select>
 
-                <button type="submit" class="text-white   bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Search</button>
+                <button type="submit" class="text-white text-3xl  bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Search</button>
 
-            <span class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</span>
+            <span class="mb-2 text-3xl font-medium text-gray-900 sr-only dark:text-white">Search</span>
             <div class="relative">                
                 <input type="search" name="search" class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Recherche par libellé">
-                <button type="submit" class="text-white  bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Search</button>
+                <button type="submit" class="text-white text-3xl bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Search</button>
             </div>
     </form>
     
@@ -142,19 +142,17 @@
             <?php 
             $index = 1;
                 foreach($favoris as $favori){
-                    
             ?>
-
             <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-600">
                 <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white hover:bg-gray-50 dark:hover:bg-gray-600">
                     <?=$favori['id_favori']; ?>
                 </td>
                 
                 <td scope="row" class="px-6 py-4 hover:bg-gray-50 dark:hover:bg-gray-600">
-                <?=$favori['libelle']; ?>
+                    <?=$favori['libelle']; ?>
                 </td>
                 <td scope="row" class="px-6 py-4 hover:bg-gray-50 dark:hover:bg-gray-600">
-                <?=$favori['date_creation']; ?>
+                    <?=$favori['date_creation']; ?>
                 </td>
                 <td scope="row" class="px-6 py-4 hover:bg-gray-50 dark:hover:bg-gray-600">
                     <?=$favori['url']; ?>
