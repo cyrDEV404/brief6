@@ -13,7 +13,6 @@ console.log(btn)
 btn.onclick = function() {
   modal.style.display = "block";
   bouton_confirmer.value = btn.value;
-  
 }
 
 // When the user clicks on <span> (x), close the modal
