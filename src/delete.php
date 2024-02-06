@@ -2,16 +2,13 @@
 
     $pdo = new PDO('mysql:host=localhost;dbname=favoris', 'root', '', array(PDO::ATTR_ERRMODE=>PDO::ERRMODE_EXCEPTION));
     // Affichage (SELECT) :
-
     
-
-
     if(isset($_GET['id_favori'])) {
         $record_id = $_GET['id_favori'];
 
         $requeteSQL = "DELETE FROM favori WHERE id_favori =". $_GET['id_favori'];
         // A decommenter si  suprimer
-        // $delete = $pdo->query($requeteSQL);
+         $pdo->query($requeteSQL);
         // Votre code de suppression d'enregistrement ici...
         // Supposons que vous avez déjà supprimé l'enregistrement ici...
     

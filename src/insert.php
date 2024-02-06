@@ -1,6 +1,6 @@
 <?php 
 include("header.php");
-include("pdo.php"); 
+include("pdo.php");
 
 
 if (!empty($_POST)){
@@ -177,12 +177,6 @@ if ($formulaire_soumis == true){
             $erreur
         }
     }*/
-
-   
-
-
-
-
 ?>
 
 
